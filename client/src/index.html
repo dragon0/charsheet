@@ -1,0 +1,91 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Character Sheet</title>
+  <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+
+  <div class="container" id="app">
+
+    <known-spells v-bind:spells="knownSpells"></known-spells>
+
+    <prepared-spells v-bind:spells="preparedSpells"></prepared-spells>
+
+    <spellbook
+      v-bind:spells="spellBook"
+      v-bind:on-learn="learn"
+      v-bind:on-prepare="prepare"
+      ></spellbook>
+
+  </div>
+
+  <script type="x-template" id="known-spells-template">
+    <div class="known-spells column">
+      <h2>Known Spells</h2>
+      <div class="main-list">
+        <spell
+          v-for="(spell, index) in spells"
+          v-bind:key="index"
+          v-bind:fromBook="false"
+          v-bind:spell="spell"
+          v-bind:onLearn="function(){}"
+          v-bind:onPrepare="function(){}"
+          ></spell>
+      </div>
+    </div>
+  </script>
+
+  <script type="x-template" id="prepared-spells-template">
+    <div class="prepared-spells column">
+      <h2>Prepared Spells</h2>
+      <div class="main-list">
+        <spell
+          v-for="(spell, index) in spells"
+          v-bind:key="index"
+          v-bind:fromBook="false"
+          v-bind:spell="spell"
+          v-bind:onLearn="function(){}"
+          v-bind:onPrepare="function(){}"
+          ></spell>
+      </div>
+    </div>
+  </script>
+
+  <script type="x-template" id="spellbook-template">
+    <div class="spellbook column">
+      <h2>Spellbook</h2>
+      <div class="main-list">
+        <spell
+          v-for="(spell, index) in spells"
+          v-bind:key="index"
+          v-bind:fromBook="true"
+          v-bind:spell="spell"
+          v-bind:onLearn="learn"
+          v-bind:onPrepare="prepare"
+          ></spell>
+      </div>
+    </div>
+  </script>
+
+  <script type="x-template" id="spell-template">
+    <div class="spell">
+      <h3>{{spell.name}}</h3>
+      <button v-if="fromBook" class="learn" v-on:click="learn">Learn</button>
+      <button v-if="fromBook" class="prepare" v-on:click="prepare">Prepare</button>
+      <div>Level {{spell.level}}</div>
+      <div>{{spell.school}}</div>
+      <div>{{spell.casting_time}}</div>
+      <div>{{spell.range}}</div>
+      <div>{{spell.components}}</div>
+      <div>{{spell.duration}}</div>
+      <div>{{spell.description}}</div>
+    </div>
+  </script>
+
+  <script src="vue.js"></script>
+  <script src="spells.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
+
