@@ -8,15 +8,21 @@
 
   <div class="container" id="app">
 
-    <known-spells v-bind:spells="knownSpells"></known-spells>
+    <known-spells
+                         v-bind:spells="knownSpells"
+                         v-bind:on-remove="unLearn"
+                         ></known-spells>
 
-    <prepared-spells v-bind:spells="preparedSpells"></prepared-spells>
+    <prepared-spells
+                         v-bind:spells="preparedSpells"
+                         v-bind:on-remove="unPrepare"
+                         ></prepared-spells>
 
     <spellbook
-      v-bind:spells="spellBook"
-      v-bind:on-learn="learn"
-      v-bind:on-prepare="prepare"
-      ></spellbook>
+                         v-bind:spells="spellBook"
+                         v-bind:on-learn="learn"
+                         v-bind:on-prepare="prepare"
+                         ></spellbook>
 
   </div>
 
@@ -31,6 +37,7 @@
           v-bind:spell="spell"
           v-bind:onLearn="function(){}"
           v-bind:onPrepare="function(){}"
+          v-bind:onRemove="remove"
           ></spell>
       </div>
     </div>
@@ -47,6 +54,7 @@
           v-bind:spell="spell"
           v-bind:onLearn="function(){}"
           v-bind:onPrepare="function(){}"
+          v-bind:onRemove="remove"
           ></spell>
       </div>
     </div>
@@ -63,6 +71,7 @@
           v-bind:spell="spell"
           v-bind:onLearn="learn"
           v-bind:onPrepare="prepare"
+          v-bind:onRemove="function(){}"
           ></spell>
       </div>
     </div>
@@ -73,6 +82,7 @@
       <h3>{{spell.name}}</h3>
       <button v-if="fromBook" class="learn" v-on:click="learn">Learn</button>
       <button v-if="fromBook" class="prepare" v-on:click="prepare">Prepare</button>
+      <button v-if="!fromBook" class="remove" v-on:click="remove">Remove</button>
       <div>Level {{spell.level}}</div>
       <div>{{spell.school}}</div>
       <div>{{spell.casting_time}}</div>

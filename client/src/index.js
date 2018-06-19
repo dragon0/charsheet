@@ -1,5 +1,5 @@
 Vue.component('spell', {
-    props: ['spell', 'fromBook', 'onLearn', 'onPrepare'],
+    props: ['spell', 'fromBook', 'onLearn', 'onPrepare', 'onRemove'],
     data: function(){
         return {};
     },
@@ -9,6 +9,9 @@ Vue.component('spell', {
         },
         prepare: function(){
             this.onPrepare(this.spell);
+        },
+        remove: function(){
+            this.onRemove(this.spell);
         }
 
     },
@@ -16,17 +19,27 @@ Vue.component('spell', {
 });
 
 Vue.component('known-spells', {
-    props: ['spells'],
+    props: ['spells', 'onRemove'],
     data: function(){
         return {};
+    },
+    methods: {
+        remove: function(spell){
+            this.onRemove(spell);
+        }
     },
     template: "#known-spells-template"
 });
 
 Vue.component('prepared-spells', {
-    props: ['spells'],
+    props: ['spells', 'onRemove'],
     data: function(){
         return {};
+    },
+    methods: {
+        remove: function(spell){
+            this.onRemove(spell);
+        }
     },
     template: "#prepared-spells-template"
 });
@@ -60,10 +73,19 @@ new Vue({
                 this.insert(this.knownSpells, spell);
             }
         },
+        unLearn: function(spell){
+            this.knownSpells = this.remove(this.knownSpells, spell);
+        },
         prepare: function(spell){
             if(!this.preparedSpells.some((s) => s.name === spell.name)){
                 this.insert(this.preparedSpells, spell);
             }
+        },
+        unPrepare: function(spell){
+            this.preparedSpells = this.remove(this.preparedSpells, spell);
+        },
+        remove: function(array, item){
+            return array.filter((s) => s.name !== item.name);
         },
         insert: function(array, item) {
                 array.push(item);
